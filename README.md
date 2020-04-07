@@ -11,7 +11,7 @@ The model is based on the math from an episode of Numberphile on youtube
 
 ### Version 1.1
 - [x] Add a "D" category
-- [ ] set colors in plot and make it bigger
+- [ ] Set colors in plot and make it bigger
 
 ### Version 1.0
 - [x] Make the basic simulation operational

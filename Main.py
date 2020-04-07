@@ -23,7 +23,7 @@ class TransmissionRate:
         self.time_max = 25
 
         # Resolution, high value ==> high resolution, must be integer
-        self.resolution = 100
+        self.resolution = 10
 
         # Variables
         self.I = self.I_start       # I for infected
@@ -62,7 +62,7 @@ class TransmissionRate:
             # Departure rate is base on the number of infected and departure rate
             self.D_rate = self.departure * self.I / self.resolution
 
-            """ Use the rates to calculate the next values """
+            """ Use the rates to calculate the next values and save them """
             # New values on susceptible, infected and recovered are calculated
             self.S = self.S - self.I_rate
             self.I = self.I + self.I_rate - self.R_rate - self.D_rate
