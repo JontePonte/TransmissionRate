@@ -14,7 +14,7 @@ class TransmissionRate:
         self.D_start = 0
 
         # Transmission rate and recovery rate
-        self.transmission = 3.2
+        self.transmission = 1.2
         self.recovery = 0.23
         self.departure = 0.01
 
