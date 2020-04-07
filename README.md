@@ -10,7 +10,7 @@ The model is based on the math from an episode of Numberphile on youtube
 - [ ] Change D-rate based on the same variables
 
 ### Version 1.1
-- [ ] Add a "D" category
+- [x] Add a "D" category
 - [ ] set colors in plot and make it bigger
 
 ### Version 1.0
