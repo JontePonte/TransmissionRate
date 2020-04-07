@@ -76,7 +76,6 @@ class TransmissionRate:
         plt.plot(t, self.S_l)
         plt.plot(t, self.I_l)
         plt.plot(t, self.R_l)
-
         plt.legend(labels=["Susceptible", "Infected", "Recovered"], loc="right")
         plt.title('Infection transmission rate')
         plt.xlabel('Time')
