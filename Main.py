@@ -85,6 +85,7 @@ class TransmissionRate:
             t.append(time / self.resolution)
 
         # Do all the plot stuff
+        plt.figure(figsize=(8, 5))
         plt.plot(t, self.S_l)
         plt.plot(t, self.I_l)
         plt.plot(t, self.R_l)
