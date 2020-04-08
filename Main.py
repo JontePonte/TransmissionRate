@@ -15,7 +15,7 @@ class TransmissionRate:
 
         # Transmission rate and recovery rate
         self.transmission = 1.2
-        self.recovery = 0.23
+        self.recovery = 0.43
         self.departure = 0.01
 
         # Time variables
