@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.widgets import Slider
+from PlotFuction import *
 
 
 class TransmissionRate:
@@ -99,27 +100,34 @@ class TransmissionRate:
         fig, ax = plt.subplots()
         plt.subplots_adjust(left=0.1, bottom=0.5)
         sp, = plt.plot(self.t, self.S_l, color="blue")
+        ip, = plt.plot(self.t, self.I_l, color="red")
+        rp, = plt.plot(self.t, self.R_l, color="green")
+        dp, = plt.plot(self.t, self.D_l, color="brown")
         plt.axis([0, self.time_max, 0, 1])
 
         ax_slider1 = plt.axes([0.2, 0.2, 0.7, 0.05])
         s_trans = Slider(ax=ax_slider1,
                          label="Transmission",
                          valmin=0,
-                         valmax=10)
+                         valmax=10,
+                         valinit=self.transmission)
 
         ax_slider2 = plt.axes([0.2, 0.1, 0.7, 0.05])
         s_recov = Slider(ax=ax_slider2,
                          label="Recovery",
                          valmin=0,
-                         valmax=10)
+                         valmax=10,
+                         valinit=self.recovery)
 
         plt.show()
 
-        while True:
+        def update(a):
             self.transmission = s_trans.val
             self.simulate()
+            sp.set_data(self.t, self.S_l)
+            fig.canvas.draw_idle()
 
-            plt.draw()
+        s_trans.on_changed(update())
 
 
 run = TransmissionRate()
