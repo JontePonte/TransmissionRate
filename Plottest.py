@@ -20,8 +20,12 @@ fig.axes.get_yaxis().set_visible(False)
 axb = plt.axes([0.15, 0.1, 0.65, 0.03])
 sb = Slider(axb, 'b', 0.1, 10.0, valinit=b)
 
+
 def update(val):
     fig.set_data(f(xgrid, ygrid, val))
+
+
 sb.on_changed(update)
+
 
 plt.show()

@@ -28,6 +28,7 @@ class TransmissionRate:
         # Time variables
         self.time = 0
         self.time_max = 25
+        self.t = []
 
         # Resolution, high value ==> high resolution, must be integer
         self.resolution = 10
@@ -87,26 +88,38 @@ class TransmissionRate:
             self.D_l.append(self.D)
 
             self.time += 1 / self.resolution
+        # Fix time variable
+        self.t = []
+        for time in self.time_l:
+            self.t.append(time / self.resolution)
 
     def plot_results(self):
         """ plot the results in a nice graph """
-        # Fix time variable
-        t = []
-        for time in self.time_l:
-            t.append(time / self.resolution)
 
-        # Do all the plot stuff
-        plt.figure(figsize=(8, 5))
-        plt.plot(t, self.S_l)
-        plt.plot(t, self.I_l)
-        plt.plot(t, self.R_l)
-        plt.plot(t, self.D_l)
-        plt.legend(labels=["Susceptible", "Infected", "Recovered", "Departed"], loc="right")
-        plt.title('Infection Transmission Rate')
-        plt.xlabel('Time')
-        plt.ylabel('Amount')
-        plt.grid(True)
+        fig, ax = plt.subplots()
+        plt.subplots_adjust(left=0.1, bottom=0.5)
+        sp, = plt.plot(self.t, self.S_l, color="blue")
+        plt.axis([0, self.time_max, 0, 1])
+
+        ax_slider1 = plt.axes([0.2, 0.2, 0.7, 0.05])
+        s_trans = Slider(ax=ax_slider1,
+                         label="Transmission",
+                         valmin=0,
+                         valmax=10)
+
+        ax_slider2 = plt.axes([0.2, 0.1, 0.7, 0.05])
+        s_recov = Slider(ax=ax_slider2,
+                         label="Recovery",
+                         valmin=0,
+                         valmax=10)
+
         plt.show()
+
+        while True:
+            self.transmission = s_trans.val
+            self.simulate()
+
+            plt.draw()
 
 
 run = TransmissionRate()
