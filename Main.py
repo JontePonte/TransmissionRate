@@ -1,10 +1,10 @@
-
 """ A model of transmission rate in a population """
 import matplotlib.pyplot as plt
 
 
 class TransmissionRate:
     """ Create transmission curves based on transmission rate and recovery rate """
+
     def __init__(self):
         # Start values
         self.N = 1
@@ -14,9 +14,13 @@ class TransmissionRate:
         self.D_start = 0
 
         # Transmission rate and recovery rate
-        self.transmission = 1.2
-        self.recovery = 0.43
+        self.transmission = 3.2
+        self.recovery = 0.23
         self.departure = 0.01
+
+        # Additional variables
+        self.infection_capacity = 0.3
+        self.departure_without_help = 0.04
 
         # Time variables
         self.time = 0
@@ -26,10 +30,10 @@ class TransmissionRate:
         self.resolution = 10
 
         # Variables
-        self.I = self.I_start       # I for infected
-        self.S = self.S_start       # S for susceptible
-        self.R = self.R_start       # R for recovered
-        self.D = self.D_start       # D for departed
+        self.I = self.I_start  # I for infected
+        self.S = self.S_start  # S for susceptible
+        self.R = self.R_start  # R for recovered
+        self.D = self.D_start  # D for departed
 
         self.I_rate = 0
         self.R_rate = 0
@@ -51,7 +55,6 @@ class TransmissionRate:
     def simulate(self):
         """ Do all the calculations and save results """
         while self.time < self.time_max:
-
             """ Calculate all the rates. Divide with resolution """
             # the infected growth rate is based on the number of infected and susceptible + transmission rate
             self.I_rate = self.transmission * self.I * self.S / self.resolution
@@ -60,7 +63,12 @@ class TransmissionRate:
             self.R_rate = self.recovery * self.I / self.resolution
 
             # Departure rate is base on the number of infected and departure rate
-            self.D_rate = self.departure * self.I / self.resolution
+            # The rate changes for Infected over the infection capacity
+            if self.I <= self.infection_capacity:
+                self.D_rate = self.departure * self.I / self.resolution
+            elif self.I > self.infection_capacity:
+                self.D_rate = (self.departure * self.infection_capacity
+                               + self.departure_without_help * (self.I - self.infection_capacity)) / self.resolution
 
             """ Use the rates to calculate the next values and save them """
             # New values on susceptible, infected and recovered are calculated
