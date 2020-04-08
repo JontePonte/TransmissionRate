@@ -1,5 +1,8 @@
 """ A model of transmission rate in a population """
+
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.widgets import Slider
 
 
 class TransmissionRate:
