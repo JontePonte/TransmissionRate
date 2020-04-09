@@ -89,45 +89,76 @@ class TransmissionRate:
             self.D_l.append(self.D)
 
             self.time += 1 / self.resolution
+
         # Fix time variable
         self.t = []
         for time in self.time_l:
             self.t.append(time / self.resolution)
 
+    def reset_values(self):
+        """ Reset all values so the simulation car run again """
+
+        # Variables
+        self.I = self.I_start  # I for infected
+        self.S = self.S_start  # S for susceptible
+        self.R = self.R_start  # R for recovered
+        self.D = self.D_start  # D for departed
+
+        self.I_rate = 0
+        self.R_rate = 0
+        self.D_rate = 0
+
+        # List for plot
+        self.S_l = []
+        self.I_l = []
+        self.R_l = []
+        self.D_l = []
+        self.time_l = list(range(int(self.time_max * self.resolution)))
+
+        # Reset time
+        self.time = 0
+
     def plot_results(self):
         """ plot the results in a nice graph """
 
-        fig, ax = plt.subplots()
-        plt.subplots_adjust(left=0.1, bottom=0.5)
-        sp, = plt.plot(self.t, self.S_l, color="blue")
-        ip, = plt.plot(self.t, self.I_l, color="red")
-        rp, = plt.plot(self.t, self.R_l, color="green")
-        dp, = plt.plot(self.t, self.D_l, color="brown")
-        plt.axis([0, self.time_max, 0, 1])
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        plt.subplots_adjust(left=0.1, bottom=0.3)
+        sp, = ax.plot(self.t, self.S_l, color="blue")
+        #ip, = ax.plot(self.t, self.I_l, color="red")
+        #rp, = ax.plot(self.t, self.R_l, color="green")
+        #dp, = ax.plot(self.t, self.D_l, color="brown")
+        ax.axis([0, self.time_max, 0, 1])
 
-        ax_slider1 = plt.axes([0.2, 0.2, 0.7, 0.05])
+        ax_slider1 = plt.axes([0.18, 0.17, 0.7, 0.05])
         s_trans = Slider(ax=ax_slider1,
                          label="Transmission",
                          valmin=0,
                          valmax=10,
                          valinit=self.transmission)
 
-        ax_slider2 = plt.axes([0.2, 0.1, 0.7, 0.05])
+        ax_slider2 = plt.axes([0.18, 0.11, 0.7, 0.05])
         s_recov = Slider(ax=ax_slider2,
                          label="Recovery",
                          valmin=0,
                          valmax=10,
                          valinit=self.recovery)
 
+        ax_slider3 = plt.axes([0.18, 0.05, 0.7, 0.05])
+        s_time = Slider(ax=ax_slider3,
+                         label="Time",
+                         valmin=1,
+                         valmax=50,
+                         valinit=self.time_max)
+
         plt.show()
 
-        def update(a):
+        while True:
+            self.reset_values()
             self.transmission = s_trans.val
             self.simulate()
             sp.set_data(self.t, self.S_l)
             fig.canvas.draw_idle()
-
-        s_trans.on_changed(update())
 
 
 run = TransmissionRate()
